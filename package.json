@@ -2,9 +2,9 @@
   "name": "reanimated-collapsible-helpers",
   "version": "1.0.0",
   "description": "A cross-platform smooth expand/collapse animation helpers for React Native",
-  "main": "lib/commonjs/index",
-  "module": "lib/module/index",
-  "types": "lib/typescript/src/index.d.ts",
+  "main": "lib/index",
+  "module": "lib/index",
+  "types": "lib/index.d.ts",
   "react-native": "src/index",
   "source": "src/index",
   "files": [
@@ -21,14 +21,13 @@
   ],
   "scripts": {
     "test": "jest",
-    "typescript": "tsc --noEmit",
-    "lint": "eslint \"{src,example/src}/**/*.{js,ts,tsx}\"",
-    "prepare": "bob build",
-    "release": "release-it",
-    "example": "yarn --cwd example",
-    "pods": "cd example && pod-install --quiet",
-    "bootstrap": "yarn example && yarn && yarn pods",
-    "build": "yarn --cwd example expo build:web && cp -r ./example/web-build ./web-build"
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "tslint -p tsconfig.json",
+    "prepare": "npm run build",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "keywords": [
     "react-native",
@@ -135,14 +134,5 @@
     "tabWidth": 2,
     "trailingComma": "es5",
     "useTabs": false
-  },
-  "@react-native-community/bob": {
-    "source": "src",
-    "output": "lib",
-    "targets": [
-      "commonjs",
-      "module",
-      "typescript"
-    ]
   }
 }
